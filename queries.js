@@ -49,6 +49,21 @@ const createLog = (request, response) => {
         }
         //response.status(201).send(`User added with ID: ${results.rows[0].id}`)
       })
+
+      pool.query(
+        'UPDATE devices SET time = $1, latitude = $2,longitude = $3,speed =$4 WHERE id = $5 RETURNING *',
+        [time, latitude,longitude,speed, '1'],
+        (error, results) => {
+          if (error) {
+            throw error
+          } 
+          if (typeof results.rows == 'undefined') {
+            response.status(404).send(`Resource not found`);
+          } else if (Array.isArray(results.rows) && results.rows.length < 1) {
+            response.status(404).send(`device not found`);
+          }  
+          
+        })
        console.log(item)
     })
     response.status(201).send(`Data added with ID `)
@@ -70,6 +85,8 @@ const createDevice = (request, response) => {
     }
     response.status(201).send(`Device added with ID: ${results.rows[0].id}`)
   })
+
+  
 }
 
 const createUser = (request, response) => {
