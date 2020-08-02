@@ -1,9 +1,17 @@
 const Pool = require('pg').Pool
-const pool = new Pool({
+const pool1 = new Pool({
   user: 'me',
   host: 'localhost',
   database: 'api',
   password: 'password',
+  port: 32769,
+})
+
+const pool = new Pool({
+  user: 'yllobeagwbouum',
+  host: 'ec2-54-247-169-129.eu-west-1.compute.amazonaws.com',
+  database: 'd28kentim5pts6',
+  password: '62a3046a297f8f45124e68c7eb45093c4c43e861837dbf84c02d581194117780',
   port: 5432,
 })
 
@@ -27,7 +35,38 @@ const getUserById = (request, response) => {
   })
 }
 
+const createLog = (request, response) => {
+  var data =    request.body
+ 
+  data.forEach(item => {
+       // Do something with item
+       const { longitude, latitude,speed,time } = item
+       pool.query('INSERT INTO gpslog (deviceid,time, latitude,longitude,speed) VALUES ($1, $2,$3,$4,$5) RETURNING *', ['1', time,latitude,longitude,speed], (error, results) => {
+        if (error) {
+          throw error
+        } else if (!Array.isArray(results.rows) || results.rows.length < 1) {
+          throw error
+        }
+        //response.status(201).send(`User added with ID: ${results.rows[0].id}`)
+      })
+       console.log(item)
+    })
+    response.status(201).send(`Data added with ID `)
+  
+
+ 
+}
+
 const createUser = (request, response) => {
+  var data =    request.body
+ 
+  data.forEach(item => {
+       // Do something with item
+       const { longitude, latitude,speed,time } = item
+       console.log(time)
+    })
+   
+ 
   const { name, email } = request.body
 
   pool.query('INSERT INTO users (name, email) VALUES ($1, $2) RETURNING *', [name, email], (error, results) => {
@@ -80,4 +119,5 @@ module.exports = {
   createUser,
   updateUser,
   deleteUser,
+  createLog
 }
