@@ -57,6 +57,21 @@ const createLog = (request, response) => {
  
 }
 
+const createDevice = (request, response) => {
+ 
+ 
+    const {  deviceid,time } = request.body
+
+  pool.query('INSERT INTO devices (deviceid, time) VALUES ($1, $2) RETURNING *', [deviceid, time], (error, results) => {
+    if (error) {
+      throw error
+    } else if (!Array.isArray(results.rows) || results.rows.length < 1) {
+    	throw error
+    }
+    response.status(201).send(`Device added with ID: ${results.rows[0].id}`)
+  })
+}
+
 const createUser = (request, response) => {
   var data =    request.body
  
@@ -119,5 +134,6 @@ module.exports = {
   createUser,
   updateUser,
   deleteUser,
-  createLog
+  createLog,
+  createDevice
 }
