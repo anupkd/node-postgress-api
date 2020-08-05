@@ -6,9 +6,10 @@
   "license": "MIT",
   "dependencies": {
     "express": "^4.16.3",
-    "pg": "^7.4.3"
+    "pg": "^7.4.3",
+    "uuid": "^8.3.0"
   },
-"scripts": {
+  "scripts": {
     "start": "node index.js"
-}
+  }
 }
