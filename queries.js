@@ -49,11 +49,19 @@ const createLog = (request, response) => {
         if (error) {
           throw error
         } else if (!Array.isArray(results.rows) || results.rows.length < 1) {
+          pool.query('INSERT INTO devices (deviceid, time) VALUES ($1, $2) RETURNING *', [user, time], (error, results) => {
+            if (error) {
+              throw error
+            } else if (!Array.isArray(results.rows) || results.rows.length < 1) {
+              throw error
+            }
+             
+          })
           ltimestamp=-1
           console.log('er')
         } else {
         console.log(results.rows[0].last_tripid)
-        ltimestamp=results.rows[0].last_timestamp
+        ltimestamp= 2 ;results.rows[0].last_timestamp
         tripId = results.rows[0].last_tripid
         }
       })
