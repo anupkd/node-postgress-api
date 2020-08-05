@@ -71,7 +71,7 @@ const createLog = (request, response) => {
       })
       console.log(ltimestamp)
       console.log(tripId)
-       if(ltimestamp > 15 || ltimestamp == -1 || tripId == ''){
+       if(ltimestamp > 15 ){
         tripId =uuidv4();
        }
        pool.query('INSERT INTO gpslog (deviceid,time, latitude,longitude,speed,userid,tripid) VALUES ($1, $2,$3,$4,$5,$6,$7) RETURNING *', [user, time,latitude,longitude,speed,user,tripId], (error, results) => {
