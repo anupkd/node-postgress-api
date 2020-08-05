@@ -1,8 +1,10 @@
 const express = require('express')
 const bodyParser = require('body-parser')
+const uuid = require('uuid');
 const app = express()
 const db = require('./queries')
 const port = process.env.PORT || 3000
+const { v4: uuidv4 } = require('uuid');
 
 app.use(bodyParser.json())
 app.use(
@@ -25,5 +27,6 @@ app.put('/users/:id', db.updateUser)
 app.delete('/users/:id', db.deleteUser)
 
 app.listen(port, () => {
+  console.log(uuidv4());
   console.log(`App running on port ${port}.`)
 })

@@ -41,7 +41,22 @@ const createLog = (request, response) => {
   data.forEach(item => {
        // Do something with item
        const { longitude, latitude,speed,time,user } = item
-       pool.query('INSERT INTO gpslog (deviceid,time, latitude,longitude,speed,userid) VALUES ($1, $2,$3,$4,$5,$6) RETURNING *', [user, time,latitude,longitude,speed,user], (error, results) => {
+       ltimestamp = 0
+       tripId = '';
+       pool.query('select  ((($1 - time/(1000))/60) as last_timestamp,  last_tripid from devices where   deviceid = $2 ', [  time ,user,tripId], (error, results) => {
+        if (error) {
+          throw error
+        } else if (!Array.isArray(results.rows) || results.rows.length < 1) {
+          ltimestamp=0
+          
+        }
+        console.log(results.rows[0].last_timestamp)
+        ltimestamp=results.rows[0].last_timestamp
+      })
+       if(ltimestamp > 15 || ltimestamp ==0 || tripId == ''){
+        tripId =uuidv4();
+       }
+       pool.query('INSERT INTO gpslog (deviceid,time, latitude,longitude,speed,userid,tripid) VALUES ($1, $2,$3,$4,$5,$6,$7) RETURNING *', [user, time,latitude,longitude,speed,user,tripId], (error, results) => {
         if (error) {
           throw error
         } else if (!Array.isArray(results.rows) || results.rows.length < 1) {
@@ -51,8 +66,8 @@ const createLog = (request, response) => {
       })
 
       pool.query(
-        'UPDATE devices SET time = $1, latitude = $2,longitude = $3,speed =$4 WHERE id = $5 RETURNING *',
-        [time, latitude,longitude,speed, '1'],
+        'UPDATE devices SET time = $1, latitude = $2,longitude = $3,speed =$4 ,last_tripid = $5 WHERE deviceid = $6 RETURNING *',
+        [time, latitude,longitude,speed,tripId, user],
         (error, results) => {
           if (error) {
             throw error
