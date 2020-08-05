@@ -60,10 +60,13 @@ const createLog = (request, response) => {
           ltimestamp=-1
           console.log('er')
         } else {
+          console.log('Start')
         console.log(results.rows[0].last_timestamp)
         ltimestamp=   Math.round( results.rows[0].last_timestamp)
-        console.log(ltimestamp)
+        console.log(results.rows[0].last_tripid)
         tripId = results.rows[0].last_tripid
+        console.log(tripId)
+        console.log('End')
         }
       })
       console.log(ltimestamp)
