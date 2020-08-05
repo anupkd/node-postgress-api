@@ -42,8 +42,8 @@ const createLog = (request, response) => {
   data.forEach(item => {
        // Do something with item
        const { longitude, latitude,speed,time,user } = item
-         ltimestamp = -1
-         tripId = uuidv4();
+        var ltimestamp = -1
+       var  tripId = uuidv4();
        console.log(user)
        pool.query('select  (($1 - time)/1000)/60 as last_timestamp,  last_tripid from devices where   deviceid = $2', [  time ,user], (error, results) => {
         if (error) {
@@ -61,7 +61,7 @@ const createLog = (request, response) => {
           tripId =uuidv4();
           console.log('er')
         } else {
-          console.log('Start')
+          console.log('Start ' || ltimestamp)
         console.log(results.rows[0].last_timestamp)
         ltimestamp=   Math.round( results.rows[0].last_timestamp)
         console.log(results.rows[0].last_tripid)
