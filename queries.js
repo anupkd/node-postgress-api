@@ -40,8 +40,8 @@ const createLog = (request, response) => {
  
   data.forEach(item => {
        // Do something with item
-       const { longitude, latitude,speed,time } = item
-       pool.query('INSERT INTO gpslog (deviceid,time, latitude,longitude,speed) VALUES ($1, $2,$3,$4,$5) RETURNING *', ['1', time,latitude,longitude,speed], (error, results) => {
+       const { longitude, latitude,speed,time,userid } = item
+       pool.query('INSERT INTO gpslog (deviceid,time, latitude,longitude,speed,userid) VALUES ($1, $2,$3,$4,$5,$6) RETURNING *', ['1', time,latitude,longitude,speed,userid], (error, results) => {
         if (error) {
           throw error
         } else if (!Array.isArray(results.rows) || results.rows.length < 1) {
