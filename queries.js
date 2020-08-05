@@ -42,8 +42,8 @@ const createLog = (request, response) => {
   data.forEach(item => {
        // Do something with item
        const { longitude, latitude,speed,time,user } = item
-       const ltimestamp = -1
-       const tripId = uuidv4();
+         ltimestamp = -1
+         tripId = uuidv4();
        console.log(user)
        pool.query('select  (($1 - time)/1000)/60 as last_timestamp,  last_tripid from devices where   deviceid = $2', [  time ,user], (error, results) => {
         if (error) {
@@ -66,12 +66,14 @@ const createLog = (request, response) => {
         ltimestamp=   Math.round( results.rows[0].last_timestamp)
         console.log(results.rows[0].last_tripid)
         if(ltimestamp <= 15 ){
+          console.log('Inside')
           tripId = results.rows[0].last_tripid
         }
         console.log(tripId)
         console.log('End')
         }
       })
+      console.log('Out')
       console.log(ltimestamp)
       console.log(tripId)
      
