@@ -42,7 +42,7 @@ const createLog = (request, response) => {
   data.forEach(item => {
        // Do something with item
        const { longitude, latitude,speed,time,user } = item
-        var ltimestamp = -1
+         var ltimestamp = -1
        var  tripId = uuidv4();
        console.log(user)
        pool.query('select  (($1 - time)/1000)/60 as last_timestamp,  last_tripid from devices where   deviceid = $2', [  time ,user], (error, results) => {
@@ -71,35 +71,37 @@ const createLog = (request, response) => {
         }
         console.log(tripId)
         console.log('End')
+
         }
+        pool.query('INSERT INTO gpslog (deviceid,time, latitude,longitude,speed,userid,tripid) VALUES ($1, $2,$3,$4,$5,$6,$7) RETURNING *', [user, time,latitude,longitude,speed,user,tripId], (error, results) => {
+          if (error) {
+            throw error
+          } else if (!Array.isArray(results.rows) || results.rows.length < 1) {
+            throw error
+          }
+          //response.status(201).send(`User added with ID: ${results.rows[0].id}`)
+        })
+  
+        pool.query(
+          'UPDATE devices SET time = $1, latitude = $2,longitude = $3,speed =$4 ,last_tripid = $5 WHERE deviceid = $6 RETURNING *',
+          [time, latitude,longitude,speed,tripId, user],
+          (error, results) => {
+            if (error) {
+              throw error
+            } 
+            if (typeof results.rows == 'undefined') {
+              response.status(404).send(`Resource not found`);
+            } else if (Array.isArray(results.rows) && results.rows.length < 1) {
+              response.status(404).send(`device not found`);
+            }  
+            
+          })
       })
       console.log('Out')
       console.log(ltimestamp)
       console.log(tripId)
      
-       pool.query('INSERT INTO gpslog (deviceid,time, latitude,longitude,speed,userid,tripid) VALUES ($1, $2,$3,$4,$5,$6,$7) RETURNING *', [user, time,latitude,longitude,speed,user,tripId], (error, results) => {
-        if (error) {
-          throw error
-        } else if (!Array.isArray(results.rows) || results.rows.length < 1) {
-          throw error
-        }
-        //response.status(201).send(`User added with ID: ${results.rows[0].id}`)
-      })
-
-      pool.query(
-        'UPDATE devices SET time = $1, latitude = $2,longitude = $3,speed =$4 ,last_tripid = $5 WHERE deviceid = $6 RETURNING *',
-        [time, latitude,longitude,speed,tripId, user],
-        (error, results) => {
-          if (error) {
-            throw error
-          } 
-          if (typeof results.rows == 'undefined') {
-            response.status(404).send(`Resource not found`);
-          } else if (Array.isArray(results.rows) && results.rows.length < 1) {
-            response.status(404).send(`device not found`);
-          }  
-          
-        })
+      
        console.log(item)
     })
     response.status(201).send(`Data added with ID `)
