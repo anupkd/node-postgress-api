@@ -65,14 +65,16 @@ const createLog = (request, response) => {
         console.log(results.rows[0].last_timestamp)
         ltimestamp=   Math.round( results.rows[0].last_timestamp)
         console.log(results.rows[0].last_tripid)
-        tripId = results.rows[0].last_tripid
+        if(ltimestamp > 15 ){
+          tripId = results.rows[0].last_tripid
+        }
         console.log(tripId)
         console.log('End')
         }
       })
       console.log(ltimestamp)
       console.log(tripId)
-      
+     
        pool.query('INSERT INTO gpslog (deviceid,time, latitude,longitude,speed,userid,tripid) VALUES ($1, $2,$3,$4,$5,$6,$7) RETURNING *', [user, time,latitude,longitude,speed,user,tripId], (error, results) => {
         if (error) {
           throw error
