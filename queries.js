@@ -17,7 +17,7 @@ const pool = new Pool({
 })
 
 const getUsers = (request, response) => {
-  pool.query('SELECT * FROM users ORDER BY id ASC', (error, results) => {
+  pool.query('SELECT count(*) FROM gpslog ORDER BY id ASC', (error, results) => {
     if (error) {
       throw error
     }
@@ -28,7 +28,7 @@ const getUsers = (request, response) => {
 const getUserById = (request, response) => {
   const id = parseInt(request.params.id)
 
-  pool.query('SELECT * FROM users WHERE id = $1', [id], (error, results) => {
+  pool.query('select DATE(created_at) date,count(tripid) trips  from gpslog where deviceid =$1 group by  DATE(created_at) order by  DATE(created_at) desc', [id], (error, results) => {
     if (error) {
       throw error
     }
