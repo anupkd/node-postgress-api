@@ -44,19 +44,21 @@ const createLog = (request, response) => {
        const { longitude, latitude,speed,time,user } = item
        ltimestamp = 0
        tripId = '';
-       pool.query('select  (($1 - time)/1000)/60as last_timestamp,  last_tripid from devices where   deviceid = $2 ', [  time ,user], (error, results) => {
+       pool.query('select  (($1 - time)/1000)/60 as last_timestamp,  last_tripid from devices where   deviceid = $2 ', [  time ,user], (error, results) => {
         if (error) {
           throw error
         } else if (!Array.isArray(results.rows) || results.rows.length < 1) {
           ltimestamp=0
           
         } else {
-        console.log(results.rows[0].last_timestamp)
+        console.log(results.rows[0].last_tripid)
         ltimestamp=results.rows[0].last_timestamp
         tripId = results.rows[0].last_tripid
         }
       })
-       if(ltimestamp > 15 || ltimestamp ==0 || tripId == ''){
+      console.log(ltimestamp)
+      console.log(tripId)
+       if(ltimestamp > 15 || ltimestamp == 0 || tripId == ''){
         tripId =uuidv4();
        }
        pool.query('INSERT INTO gpslog (deviceid,time, latitude,longitude,speed,userid,tripid) VALUES ($1, $2,$3,$4,$5,$6,$7) RETURNING *', [user, time,latitude,longitude,speed,user,tripId], (error, results) => {
