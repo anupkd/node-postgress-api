@@ -44,7 +44,7 @@ const createLog = (request, response) => {
        const { longitude, latitude,speed,time,user } = item
        ltimestamp = 0
        tripId = '';
-       pool.query('select  ((($1 - time/(1000))/60) as last_timestamp,  last_tripid from devices where   deviceid = $2 ', [  time ,user], (error, results) => {
+       pool.query('select  (($1 - time/1000)/60) as last_timestamp,  last_tripid from devices where   deviceid = $2 ', [  time ,user], (error, results) => {
         if (error) {
           throw error
         } else if (!Array.isArray(results.rows) || results.rows.length < 1) {
