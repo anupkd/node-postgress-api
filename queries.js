@@ -26,7 +26,7 @@ const getUsers = (request, response) => {
 }
 
 const getUserById = (request, response) => {
-  const id =  request.query.id
+  const id =  request.params.id
   console.log(id)
   pool.query('select DATE(created_at) date,count(tripid) trips  from gpslog where deviceid =$1 group by  DATE(created_at) order by  DATE(created_at) desc', [id], (error, results) => {
     if (error) {
