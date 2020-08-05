@@ -65,7 +65,7 @@ const createLog = (request, response) => {
         console.log(results.rows[0].last_timestamp)
         ltimestamp=   Math.round( results.rows[0].last_timestamp)
         console.log(results.rows[0].last_tripid)
-        if(ltimestamp > 15 ){
+        if(ltimestamp <= 15 ){
           tripId = results.rows[0].last_tripid
         }
         console.log(tripId)
