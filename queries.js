@@ -57,11 +57,12 @@ const createLog = (request, response) => {
             }
              
           })
-          ltimestamp=-1
+          ltimestamp=-2
           console.log('er')
         } else {
         console.log(results.rows[0].last_tripid)
-        ltimestamp= 2 ;results.rows[0].last_timestamp
+        ltimestamp= 11 ; //results.rows[0].last_timestamp
+        console.log('heer')
         tripId = results.rows[0].last_tripid
         }
       })
