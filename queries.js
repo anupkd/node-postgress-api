@@ -29,7 +29,7 @@ const getUsers = (request, response) => {
 const getUserById = (request, response) => {
   const id =  request.params.id
   console.log(id)
-  pool.query("select \'Current Day\' as label,count(distinct tripid) trips  from gpslog where deviceid =$1 and DATE(created_at) = DATE(current_timestamp)   group by  DATE(created_at) union all select \'Current Day\' as  label,count(distinct tripid) trips  from gpslog where deviceid =$1 and EXTRACT(MONTH FROM created_at)= EXTRACT(MONTH FROM current_timestamp) "
+  pool.query("select \'Current Day\' as label,1 as id,count(distinct tripid) trips  from gpslog where deviceid =$1 and DATE(created_at) = DATE(current_timestamp)   group by  DATE(created_at) union all select \'Current Month\' as  label,2 as id,count(distinct tripid) trips  from gpslog where deviceid =$1 and EXTRACT(MONTH FROM created_at)= EXTRACT(MONTH FROM current_timestamp) "
  , [id], (error, results) => {
     if (error) {
       throw error
