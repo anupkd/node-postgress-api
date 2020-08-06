@@ -67,7 +67,7 @@ const createLog = (request, response) => {
           console.log( parseFloat(results.rows[0].latitude) ) 
           console.log( parseFloat(results.rows[0].longitude));
           var distance = 200;
-          if( parseFloat(results.rows[0].latitude) > 0.00000000000000001){}
+          if( parseFloat(results.rows[0].latitude) > 0.00000000000000001){
               point1 = new GeoPoint( parseFloat(results.rows[0].latitude) ,parseFloat(results.rows[0].longitude));
               point2 = new GeoPoint(latitude, longitude);
               distance = point1.distanceTo(point2, true)
