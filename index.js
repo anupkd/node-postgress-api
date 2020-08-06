@@ -27,6 +27,11 @@ app.put('/users/:id', db.updateUser)
 app.delete('/users/:id', db.deleteUser)
 
 app.listen(port, () => {
+const GeoPoint = require('geopoint')
+   point1 = new GeoPoint(parseFloat("10.19267"),76.3869299999999);
+          point2 = new GeoPoint(10.19257,76.3869299999999);
+          var distance = point1.distanceTo(point2, true)
+          console.log(distance)
   console.log(uuidv4());
   console.log(`App running on port ${port}.`)
 })

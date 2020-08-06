@@ -63,7 +63,7 @@ const createLog = (request, response) => {
           console.log('er')
         } else {
           console.log('Start ' || ltimestamp)
-          console.log( results.rows[0].latitude || '-'  || results.rows[0].longitude);
+          console.log( parseFloat(results.rows[0].latitude) || '-'  || parseFloat(results.rows[0].longitude));
           point1 = new GeoPoint(results.rows[0].latitude, results.rows[0].longitude);
           point2 = new GeoPoint(latitude, longitude);
           var distance = point1.distanceTo(point2, true)
