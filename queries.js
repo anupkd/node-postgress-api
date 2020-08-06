@@ -17,8 +17,9 @@ const pool = new Pool({
   port: 5432,
 })
 
-const getUsers = (request, response) => {
-  pool.query('SELECT count(*) FROM gpslog ORDER BY id ASC', (error, results) => {
+const getTripsById = (request, response) => {
+  const id =  request.params.id
+  pool.query('SELECT * FROM trips where userid=$1',[id], (error, results) => {
     if (error) {
       throw error
     }
@@ -195,7 +196,7 @@ const deleteUser = (request, response) => {
 }
 
 module.exports = {
-  getUsers,
+  getTripsById,
   getUserById,
   createUser,
   updateUser,
