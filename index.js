@@ -18,7 +18,7 @@ app.get('/', (request, response) => {
 })
 
 
-app.get('/users', db.getTripsById)
+app.get('/trips/:uid', db.getTripsById)
 app.get('/users/:id', db.getUserById)
 app.post('/users', db.createUser)
 app.post('/logs', db.createLog)

@@ -18,7 +18,7 @@ const pool = new Pool({
 })
 
 const getTripsById = (request, response) => {
-  const id =  request.params.id
+  const id =  request.params.uid
   pool.query('SELECT * FROM trips where userid=$1',[id], (error, results) => {
     if (error) {
       throw error
