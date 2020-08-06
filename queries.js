@@ -1,5 +1,5 @@
 const Pool = require('pg').Pool
-const GeoPoint = require('geopoint').Pool
+const GeoPoint = require('geopoint')
 const { v4: uuidv4 } = require('uuid');
 const pool1 = new Pool({
   user: 'me',
@@ -63,7 +63,7 @@ const createLog = (request, response) => {
           console.log('er')
         } else {
           console.log('Start ' || ltimestamp)
-          var GeoPoint = require('geopoint');
+          console.log( results.rows[0].latitude || '-'  || results.rows[0].longitude);
           point1 = new GeoPoint(results.rows[0].latitude, results.rows[0].longitude);
           point2 = new GeoPoint(latitude, longitude);
           var distance = point1.distanceTo(point2, true)
