@@ -66,9 +66,12 @@ const createLog = (request, response) => {
           console.log('Start ' || ltimestamp)
           console.log( parseFloat(results.rows[0].latitude) ) 
           console.log( parseFloat(results.rows[0].longitude));
-          point1 = new GeoPoint( parseFloat(results.rows[0].latitude) ,parseFloat(results.rows[0].longitude));
-          point2 = new GeoPoint(latitude, longitude);
-          var distance = point1.distanceTo(point2, true)
+          var distance = 200;
+          if( parseFloat(results.rows[0].latitude) > 0.00000000000000001){}
+              point1 = new GeoPoint( parseFloat(results.rows[0].latitude) ,parseFloat(results.rows[0].longitude));
+              point2 = new GeoPoint(latitude, longitude);
+              distance = point1.distanceTo(point2, true)
+           }
           console.log(distance)
         console.log(results.rows[0].last_timestamp)
         ltimestamp=   Math.round( results.rows[0].last_timestamp)
