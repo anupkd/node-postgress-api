@@ -13,7 +13,7 @@ const pool = new Pool({
   user: 'yllobeagwbouum',
   host: 'ec2-54-247-169-129.eu-west-1.compute.amazonaws.com',
   database: 'd28kentim5pts6',
-  password: '62a3046a297f8f45124e68c7eb45093c4c43e861837dbf84c02d581194117780',
+  password: '9e9d46f4e598cca454514c616a751d48cd71060525107560b729b1290590a35b',
   port: 5432,
 })
 
