@@ -19,6 +19,7 @@ app.get('/', (request, response) => {
 
 
 app.get('/trips/:uid', db.getTripsById)
+app.get('/trips/map/:tripid',db.getRouteByTripId)
 app.get('/users/:id', db.getUserById)
 app.post('/users', db.createUser)
 app.post('/logs', db.createLog)

@@ -27,10 +27,20 @@ const getTripsById = (request, response) => {
   })
 }
 
+const getRouteByTripId = (request, response) => {
+  const id =  request.params.tripid
+  pool.query('SELECT latitude,longitude FROM gpslog where tripid=$1',[id], (error, results) => {
+    if (error) {
+      throw error
+    }
+    response.status(200).json(results.rows)
+  })
+}
+
 const getUserById = (request, response) => {
   const id =  request.params.id
   console.log(id)
-  pool.query("select \'Current Day\' as label,1 as id,count(distinct tripid) trips  from gpslog where deviceid =$1 and DATE(created_at) = DATE(current_timestamp)   group by  DATE(created_at) union all select \'Current Month\' as  label,2 as id,count(distinct tripid) trips  from gpslog where deviceid =$1 and EXTRACT(MONTH FROM created_at)= EXTRACT(MONTH FROM current_timestamp) "
+  pool.query("select \'Current Day\' as label,1 as id,count(distinct tripid) trips  from trips where deviceid =$1 and DATE(start_time) = DATE(current_timestamp)   group by  DATE(start_time) union all select \'Current Month\' as  label,2 as id,count(distinct tripid) trips  from trips where deviceid =$1 and EXTRACT(MONTH FROM start_time)= EXTRACT(MONTH FROM current_timestamp) "
  , [id], (error, results) => {
     if (error) {
       throw error
@@ -202,5 +212,6 @@ module.exports = {
   updateUser,
   deleteUser,
   createLog,
-  createDevice
+  createDevice,
+  getRouteByTripId
 }
