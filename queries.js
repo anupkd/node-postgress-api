@@ -19,7 +19,7 @@ const pool = new Pool({
 
 const getTripsById = (request, response) => {
   const id =  request.params.uid
-  pool.query('SELECT * FROM trips where userid=$1 order by time',[id], (error, results) => {
+  pool.query('SELECT * FROM trips where userid=$1 ',[id], (error, results) => {
     if (error) {
       throw error
     }
@@ -29,7 +29,7 @@ const getTripsById = (request, response) => {
 
 const getRouteByTripId = (request, response) => {
   const id =  request.params.tripid
-  pool.query('SELECT latitude,longitude FROM gpslog where tripid=$1',[id], (error, results) => {
+  pool.query('SELECT latitude,longitude FROM gpslog where tripid=$1 order by time',[id], (error, results) => {
     if (error) {
       throw error
     }
