@@ -19,7 +19,7 @@ const pool = new Pool({
 
 const getTripsById = (request, response) => {
   const id =  request.params.uid
-  pool.query('SELECT * FROM trips where userid=$1',[id], (error, results) => {
+  pool.query('SELECT * FROM trips where userid=$1 order by time',[id], (error, results) => {
     if (error) {
       throw error
     }
