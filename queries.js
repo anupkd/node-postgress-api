@@ -1,15 +1,15 @@
 const Pool = require('pg').Pool
 const GeoPoint = require('geopoint')
 const { v4: uuidv4 } = require('uuid');
-const pool1 = new Pool({
-  user: 'me',
-  host: 'localhost',
-  database: 'api',
-  password: 'password',
-  port: 32769,
+const pool = new Pool({
+  user: 'postgres',
+  host: 'travlog.cbrq6afqs7kz.eu-west-1.rds.amazonaws.com',
+  database: 'postgres',
+  password: 'travlog123',
+  port: 5432,
 })
 
-const pool = new Pool({
+const pool1 = new Pool({
   user: 'uuwisnkzdcdbvd',
   host: 'ec2-52-213-173-172.eu-west-1.compute.amazonaws.com',
   database: 'd5blg62473hnk4',
