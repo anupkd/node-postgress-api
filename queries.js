@@ -54,15 +54,15 @@ const createLog = (request, response) => {
  
   data.forEach(item => {
        // Do something with item
-       const { longitude, latitude,speed,time,user } = item
+       const { longitude, latitude,speed,time,user,deviceid } = item
          var ltimestamp = -1
        var  tripId = uuidv4();
        console.log(user)
-       pool.query('select  (($1 - time)/1000)/60 as last_timestamp,  last_tripid,latitude,longitude from devices where   deviceid = $2', [  time ,user], (error, results) => {
+       pool.query('select  (($1 - time)/1000)/60 as last_timestamp,  last_tripid,latitude,longitude from devices where   deviceid = $2', [  time ,deviceid], (error, results) => {
         if (error) {
           throw error
         } else if (!Array.isArray(results.rows) || results.rows.length < 1) {
-          pool.query('INSERT INTO devices (deviceid, time) VALUES ($1, $2) RETURNING *', [user, time], (error, results) => {
+          pool.query('INSERT INTO devices (deviceid, time) VALUES ($1, $2) RETURNING *', [deviceid, time], (error, results) => {
             if (error) {
               throw error
             } else if (!Array.isArray(results.rows) || results.rows.length < 1) {
@@ -95,7 +95,7 @@ const createLog = (request, response) => {
         console.log('End')
 
         }
-        pool.query('INSERT INTO gpslog (deviceid,time, latitude,longitude,speed,userid,tripid) VALUES ($1, $2,$3,$4,$5,$6,$7) RETURNING *', [user, time,latitude,longitude,speed,user,tripId], (error, results) => {
+        pool.query('INSERT INTO gpslog (deviceid,time, latitude,longitude,speed,userid,tripid) VALUES ($1, $2,$3,$4,$5,$6,$7) RETURNING *', [deviceid, time,latitude,longitude,speed,user,tripId], (error, results) => {
           if (error) {
             throw error
           } else if (!Array.isArray(results.rows) || results.rows.length < 1) {
@@ -106,7 +106,7 @@ const createLog = (request, response) => {
   
         pool.query(
           'UPDATE devices SET time = $1, latitude = $2,longitude = $3,speed =$4 ,last_tripid = $5 WHERE deviceid = $6 RETURNING *',
-          [time, latitude,longitude,speed,tripId, user],
+          [time, latitude,longitude,speed,tripId, deviceid],
           (error, results) => {
             if (error) {
               throw error
