@@ -26,6 +26,16 @@ const getTripsById = (request, response) => {
     response.status(200).json(results.rows)
   })
 }
+//polypoints
+const getRoutePolyByTripId = (request, response) => {
+  const id =  request.params.tripid
+  pool.query('SELECT polypoints FROM trip_map where tripid=$1 ',[id], (error, results) => {
+    if (error) {
+      throw error
+    }
+    response.status(200).json(results.rows)
+  })
+}
 
 const getRouteByTripId = (request, response) => {
   const id =  request.params.tripid
@@ -213,5 +223,6 @@ module.exports = {
   deleteUser,
   createLog,
   createDevice,
-  getRouteByTripId
+  getRouteByTripId,
+  getRoutePolyByTripId
 }
